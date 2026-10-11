@@ -1,0 +1,281 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --color-flame: #E51A1A;
+  --color-flame-dark: #C41212;
+  --color-carbon: #0B0F19;
+  --color-carbon-dark: #000000;
+  --color-carbon-light: #151D2F;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #ffffff;
+  color: #111827;
+}
+
+/* Nav Link Hover Underline Animation */
+.nav-link {
+  position: relative;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.5rem 0;
+  color: #374151;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2.5px;
+  background-color: #E51A1A;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #E51A1A;
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+.nav-link.active {
+  color: #E51A1A;
+  font-weight: 600;
+}
+
+.nav-link.active::after {
+  transform: scaleX(1);
+}
+
+/* Modern High-Tech Header Accent & Progress Bars */
+
+/* Style 1: Precision Laser Pulse (Modern Default) */
+.bar-laser-track {
+  height: 3px;
+  background: rgba(15, 23, 42, 0.08);
+  position: relative;
+  overflow: visible;
+}
+.bar-laser-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #0B0F19 0%, #B91C1C 40%, #E51A1A 85%, #FF4D4D 100%);
+  position: relative;
+  box-shadow: 0 0 10px rgba(229, 26, 26, 0.6), 0 0 2px #E51A1A;
+  transition: width 120ms cubic-bezier(0.2, 0, 0.2, 1);
+}
+.bar-laser-progress::after {
+  content: '';
+  position: absolute;
+  right: -3px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 0 8px #FF0000, 0 0 14px #E51A1A, 0 0 20px #E51A1A;
+}
+
+/* Style 2: Cyber Telemetry (HUD Grid with Precision Ticks) */
+.bar-cyber-track {
+  height: 4px;
+  background: #0B0F19;
+  position: relative;
+  overflow: visible;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 19px,
+    rgba(255, 255, 255, 0.25) 19px,
+    rgba(255, 255, 255, 0.25) 20px
+  );
+}
+.bar-cyber-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #800000 0%, #E51A1A 100%);
+  position: relative;
+  box-shadow: 0 0 12px rgba(229, 26, 26, 0.7);
+  transition: width 120ms cubic-bezier(0.2, 0, 0.2, 1);
+}
+.bar-cyber-progress::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: -2px;
+  bottom: -2px;
+  width: 3px;
+  background: #FFFFFF;
+  box-shadow: 0 0 8px #FF2E2E;
+}
+
+/* Style 3: Minimalist Flame Line */
+.bar-minimal-track {
+  height: 2px;
+  background: #E2E8F0;
+  position: relative;
+}
+.bar-minimal-progress {
+  height: 100%;
+  background: #E51A1A;
+  transition: width 120ms ease-out;
+}
+
+/* Style 4: Refined Micro-Tech Stripes (Modern 3px Micro-Hatch) */
+.bar-micro-track {
+  height: 3px;
+  background: #18181B;
+  position: relative;
+  overflow: hidden;
+}
+.bar-micro-progress {
+  height: 100%;
+  background: repeating-linear-gradient(
+    -45deg,
+    #E51A1A,
+    #E51A1A 4px,
+    #0B0F19 4px,
+    #0B0F19 8px
+  );
+  box-shadow: 0 0 6px rgba(229, 26, 26, 0.5);
+  transition: width 120ms ease-out;
+}
+
+/* Carousel Buttons & Animations */
+.read-more-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.85rem 2.4rem;
+  margin-top: 1.5rem;
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+  border-radius: 50px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.85rem;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: all 0.4s ease;
+}
+
+.read-more-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: #E51A1A;
+  transition: all 0.4s ease;
+  z-index: -1;
+}
+
+.read-more-btn:hover {
+  color: white;
+  border-color: #E51A1A;
+}
+
+.read-more-btn:hover::before {
+  left: 0;
+}
+
+.read-more-btn .arrow {
+  margin-left: 8px;
+  transition: all 0.4s ease;
+}
+
+.read-more-btn:hover .arrow {
+  transform: translateX(5px);
+}
+
+/* Word Reveal Keyframe */
+@keyframes wordReveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.word-reveal {
+  display: inline-block;
+  opacity: 0;
+  animation: wordReveal 0.7s forwards;
+}
+
+/* Infinite Marquee Animations */
+@keyframes scrollLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes scrollRight {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.animate-scroll-left {
+  display: flex;
+  width: max-content;
+  animation: scrollLeft 35s linear infinite;
+}
+
+.animate-scroll-left:hover {
+  animation-play-state: paused;
+}
+
+.animate-scroll-right {
+  display: flex;
+  width: max-content;
+  animation: scrollRight 35s linear infinite;
+}
+
+.animate-scroll-right:hover {
+  animation-play-state: paused;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0B0F19;
+}
+::-webkit-scrollbar-thumb {
+  background: #E51A1A;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C41212;
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
