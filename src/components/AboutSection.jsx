@@ -99,11 +99,11 @@ export default function AboutSection({ onReadMore }) {
             </span>
           </h2>
 
-          <div className="space-y-4 text-gray-700 text-base sm:text-lg leading-relaxed font-light">
-            <p>
+          <div className="space-y-4 text-gray-700 text-base sm:text-lg leading-relaxed font-light text-justify">
+            <p className="text-justify">
               <strong className="text-gray-900 font-medium">CloudAxis Engineering</strong> is an innovative industrial automation and engineering solutions firm dedicated to optimizing plant efficiency and modernizing manufacturing systems. We bridge the gap between mechanical execution and intelligent control.
             </p>
-            <p className="text-sm sm:text-base text-gray-600">
+            <p className="text-sm sm:text-base text-gray-600 text-justify">
               Whether you are looking to upgrade legacy infrastructure, minimize factory downtime, or commission custom automation architecture, CloudAxis Engineering delivers robust, scalable, and future-ready solutions.
             </p>
           </div>
