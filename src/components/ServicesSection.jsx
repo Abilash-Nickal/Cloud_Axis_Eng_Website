@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { servicesOffer } from '../data/cloudAxisData';
-import { ArrowRight, Check, X, Wrench, Cpu, ShieldCheck } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Check, X, Wrench, Cpu, ShieldCheck } from 'lucide-react';
 
 export default function ServicesSection({ onServiceSelect }) {
   const [activeModalService, setActiveModalService] = useState(null);
@@ -328,80 +328,88 @@ export default function ServicesSection({ onServiceSelect }) {
         className="absolute -bottom-20 left-1/2 -translate-x-1/2 w-4/5 h-64 bg-gradient-to-t from-red-600/20 via-orange-500/10 to-transparent blur-3xl pointer-events-none z-0" 
       />
 
-      {/* Big BACKGROUND 'SERVICES' behind section */}
+      {/* Big BACKGROUND 'WHAT WE DO' behind section */}
       <h1 
-        className="absolute text-[160px] md:text-[200px] lg:text-[240px] font-extrabold text-white/[0.08] left-1/2 -translate-x-1/2 top-2 z-0 pointer-events-none select-none hidden md:block tracking-widest uppercase font-serif"
+        className="absolute text-[120px] md:text-[180px] lg:text-[220px] font-extrabold text-white/[0.06] left-1/2 -translate-x-1/2 top-4 z-0 pointer-events-none select-none hidden md:block tracking-widest uppercase font-serif whitespace-nowrap"
         style={{ fontFamily: "'Playfair Display', 'Times New Roman', serif" }}
       >
-        SERVICES
+        WHAT WE DO
       </h1>
 
       <div className="relative z-10 max-w-7xl mx-auto">
         
-        {/* Section Heading */}
-        <div className="text-center mb-16 max-w-4xl mx-auto">
+        {/* Section Heading - Matching titecautomation style */}
+        <div className="text-center mb-16 max-w-3xl mx-auto">
           <h2 
             className="text-4xl md:text-5xl font-bold text-white tracking-wide"
             style={{ fontFamily: "'Playfair Display', 'Times New Roman', serif" }}
           >
-            What We Offer
+            <span className="text-[#E51A1A] font-extrabold">WHAT</span> We Do
           </h2>
-          <p className="text-white/80 mt-4 text-base sm:text-lg font-light">
-            Specialized solutions that engineer tomorrow's industries.
+          <div className="w-24 h-1 bg-gradient-to-r from-[#E51A1A] via-red-500 to-transparent mx-auto mt-4 rounded-full" />
+          <p className="mt-3 text-white/80 text-sm sm:text-base font-light max-w-2xl mx-auto leading-relaxed">
+            Designing and deploying tailored automation systems — from concept to commissioning.
           </p>
         </div>
 
-        {/* Services Grid with upper image in each card */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-7 max-w-7xl mx-auto">
+        {/* Services Grid with Titec-Style Hover Reveal Effect */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {servicesOffer.map((service) => (
             <div
               key={service.id}
-              className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5 text-center hover:scale-[1.02] transition-all duration-500 shadow-lg hover:shadow-2xl hover:border-[#E51A1A] flex flex-col justify-between group overflow-hidden"
+              onClick={() => setActiveModalService(service)}
+              className="group relative block rounded-2xl overflow-hidden shadow-xl transform hover:-translate-y-2 transition-all duration-500 bg-gray-950 border border-white/10 hover:border-[#E51A1A]/70 aspect-[4/3] cursor-pointer"
             >
-              <div>
-                {/* Upper Part Image */}
-                {service.image && (
-                  <div className="relative h-44 w-full mb-4 overflow-hidden rounded-xl border border-white/10 group-hover:border-[#E51A1A]/50 transition-all duration-500 shadow-inner bg-black/40">
-                    <img
-                      src={service.image}
-                      alt={service.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  </div>
-                )}
+              {/* Full Background Image with Smooth Scale Zoom on Hover */}
+              {service.image && (
+                <img
+                  src={service.image}
+                  alt={service.title}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                  loading="lazy"
+                />
+              )}
 
+              {/* Dynamic Gradient Overlay that deepens slightly on hover */}
+              <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/65 to-transparent opacity-85 group-hover:opacity-95 transition-opacity duration-300" />
+
+              {/* Floating Glassmorphism Arrow Badge (Fades in top-right) */}
+              <div className="absolute top-4 right-4 bg-white/15 backdrop-blur-md p-2.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 transform -translate-y-2 group-hover:translate-y-0 border border-white/20 shadow-lg">
+                <ArrowUpRight className="h-5 w-5 text-white" />
+              </div>
+
+              {/* Card Bottom Content Area */}
+              <div className="absolute inset-x-0 bottom-0 p-6 flex flex-col justify-end h-full z-10">
+                {/* Title (Always visible, changes color on hover) */}
                 <h3 
-                  className="text-lg font-bold text-white mb-2 leading-snug group-hover:text-amber-100 transition-colors"
+                  className="text-lg sm:text-xl font-bold text-white mb-2 tracking-wide transition-colors duration-300 group-hover:text-[#E51A1A]"
                   style={{ fontFamily: "'Playfair Display', 'Times New Roman', serif" }}
                 >
                   {service.title}
                 </h3>
 
-                <p className="text-white/70 text-xs sm:text-sm font-light leading-relaxed">
+                {/* Description (Slides up and fades in on hover) */}
+                <p className="text-gray-300 text-xs sm:text-sm mb-4 line-clamp-2 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-100 leading-relaxed font-light">
                   {service.description}
                 </p>
-              </div>
 
-              {/* Action Buttons */}
-              <div className="pt-4 mt-4 border-t border-white/10 flex items-center justify-between gap-2">
-                <button
-                  type="button"
-                  onClick={() => setActiveModalService(service)}
-                  className="text-[11px] font-semibold text-slate-300 hover:text-white inline-flex items-center gap-1 cursor-pointer transition-colors"
-                >
-                  <span>Scope</span>
-                  <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                </button>
+                {/* Explore & Quote Row (Slides up and fades in on hover with delay-200) */}
+                <div className="flex items-center justify-between opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-200">
+                  <span className="flex items-center font-bold text-xs sm:text-sm tracking-wider uppercase text-[#E51A1A]">
+                    Explore Scope <span className="ml-2 text-base transition-transform duration-300 group-hover:translate-x-1">→</span>
+                  </span>
 
-                <button
-                  type="button"
-                  onClick={() => onServiceSelect && onServiceSelect(service.title)}
-                  className="text-[11px] font-bold text-white bg-[#E51A1A] hover:bg-black px-3.5 py-1.5 rounded-full shadow-md transition-all duration-300 cursor-pointer active:scale-95 whitespace-nowrap"
-                >
-                  Quote Service
-                </button>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (onServiceSelect) onServiceSelect(service.title);
+                    }}
+                    className="text-[11px] font-bold text-white bg-[#E51A1A] hover:bg-white hover:text-black px-3.5 py-1.5 rounded-full shadow-md transition-all duration-300 cursor-pointer active:scale-95 whitespace-nowrap"
+                  >
+                    Quote Service
+                  </button>
+                </div>
               </div>
             </div>
           ))}
