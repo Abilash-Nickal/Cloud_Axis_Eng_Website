@@ -8,6 +8,7 @@ import QuoteModal from './components/QuoteModal';
 import HomePage from './pages/HomePage';
 import NewsPage from './pages/NewsPage';
 import ProjectsPage from './pages/ProjectsPage';
+import AdminPage from './pages/AdminPage';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -22,6 +23,8 @@ export default function App() {
         setCurrentPage('news');
       } else if (hash === '#projects' || hash === '#projects-page') {
         setCurrentPage('projects');
+      } else if (hash === '#admin' || hash === '#admin-page') {
+        setCurrentPage('admin');
       } else if (hash === '#home' || hash === '') {
         setCurrentPage('home');
       }
@@ -47,6 +50,15 @@ export default function App() {
     setSelectedService('');
     setIsQuoteOpen(true);
   };
+
+  // Dedicated full-screen admin control center
+  if (currentPage === 'admin') {
+    return (
+      <AdminPage 
+        onNavigateHome={() => handleNavigate('home')}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans relative selection:bg-[#E51A1A] selection:text-white">

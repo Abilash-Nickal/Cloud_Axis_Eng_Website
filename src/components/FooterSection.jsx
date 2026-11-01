@@ -211,6 +211,13 @@ export default function FooterSection({ onNavigate, currentPage = 'home' }) {
           >
             Arumugam Abilashan
           </a>
+          <span className="mx-2 text-zinc-700">•</span>
+          <button
+            onClick={() => onNavigate && onNavigate('admin')}
+            className="text-zinc-500 hover:text-[#E51A1A] transition-colors cursor-pointer"
+          >
+            Admin CMS
+          </button>
         </p>
       </div>
 

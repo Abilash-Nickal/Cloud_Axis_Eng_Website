@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { detailedProjects } from '../data/cloudAxisData';
+import { getProjectsList } from '../lib/supabase';
 import { 
   ChevronRight, 
   Search, 
@@ -20,6 +21,17 @@ export default function ProjectsPage({ onOpenQuote, onNavigateHome }) {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeProject, setActiveProject] = useState(null);
+  const [projectList, setProjectList] = useState(detailedProjects);
+
+  useEffect(() => {
+    let isMounted = true;
+    getProjectsList().then(res => {
+      if (isMounted && res.data && res.data.length > 0) {
+        setProjectList(res.data);
+      }
+    });
+    return () => { isMounted = false; };
+  }, []);
 
   const categories = [
     'All',
@@ -30,13 +42,14 @@ export default function ProjectsPage({ onOpenQuote, onNavigateHome }) {
     'Industrial IoT'
   ];
 
-  const filteredProjects = detailedProjects.filter((item) => {
+  const filteredProjects = projectList.filter((item) => {
     const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;
+    const query = searchQuery.toLowerCase();
     const matchesSearch = 
-      item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.sector.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      item.objective.toLowerCase().includes(searchQuery.toLowerCase());
+      item.title?.toLowerCase().includes(query) ||
+      item.sector?.toLowerCase().includes(query) ||
+      (Array.isArray(item.tags) && item.tags.some(tag => tag?.toLowerCase().includes(query))) ||
+      item.objective?.toLowerCase().includes(query);
     return matchesCategory && matchesSearch;
   });
 

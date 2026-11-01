@@ -1,8 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Star, Quote, Building2, Shield, CheckCircle } from 'lucide-react';
 import { clientTestimonials, partnerBrands } from '../data/industrialData';
+import { getTestimonialsList } from '../lib/supabase';
 
 export default function Testimonials() {
+  const [testimonials, setTestimonials] = useState(clientTestimonials);
+
+  useEffect(() => {
+    let isMounted = true;
+    getTestimonialsList().then(res => {
+      if (isMounted && res.data && res.data.length > 0) {
+        setTestimonials(res.data);
+      }
+    });
+    return () => { isMounted = false; };
+  }, []);
+
   return (
     <section id="testimonials" className="py-20 md:py-28 bg-[#0F172A] text-white relative border-b border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -23,7 +36,7 @@ export default function Testimonials() {
 
         {/* 3-Column Testimonial Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
-          {clientTestimonials.map((t) => (
+          {testimonials.map((t) => (
             <div
               key={t.id}
               className="relative rounded-2xl bg-slate-950/80 border border-slate-800 p-8 flex flex-col justify-between hover:border-red-500/40 transition-all duration-300 hover:-translate-y-1 shadow-xl"
@@ -51,17 +64,17 @@ export default function Testimonials() {
               {/* Author profile */}
               <div className="pt-4 border-t border-slate-800/80 flex items-center gap-3.5">
                 <img
-                  src={t.avatar}
-                  alt={t.author}
+                  src={t.avatar_url || t.avatar || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80'}
+                  alt={t.client_name || t.author}
                   className="w-12 h-12 rounded-full object-cover border-2 border-red-500/40"
                   loading="lazy"
                 />
                 <div>
                   <h4 className="text-sm font-bold text-white font-['Rajdhani']">
-                    {t.author}
+                    {t.client_name || t.author}
                   </h4>
                   <p className="text-xs text-slate-400 font-mono">
-                    {t.role}
+                    {t.designation || t.role}
                   </p>
                   <p className="text-[11px] text-slate-500 flex items-center gap-1 mt-0.5">
                     <Building2 className="w-3 h-3 text-red-500" />

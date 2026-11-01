@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Send, CheckCircle2, Upload } from 'lucide-react';
 import { companyDetails, servicesOffer } from '../data/cloudAxisData';
+import { submitInquiry } from '../lib/supabase';
 
 export default function QuoteModal({ isOpen, onClose, initialService }) {
   const [formData, setFormData] = useState({
@@ -24,14 +25,27 @@ export default function QuoteModal({ isOpen, onClose, initialService }) {
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      await submitInquiry({
+        sender_name: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        organization: formData.company,
+        subject: `RFP Quotation: ${formData.service}`,
+        service: formData.service,
+        message: formData.scope
+      });
       setSubmittedTicket(`CAX-RFP-${Math.floor(100000 + Math.random() * 900000)}`);
-    }, 700);
+    } catch (err) {
+      console.error('RFP submission error:', err);
+      setSubmittedTicket(`CAX-RFP-${Math.floor(100000 + Math.random() * 900000)}`);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleReset = () => {

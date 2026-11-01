@@ -1,11 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { latestNewsItems } from '../data/cloudAxisData';
+import { getNewsList } from '../lib/supabase';
 import { Search, Calendar, User, Clock, ArrowRight, X, ChevronRight, Share2, Mail } from 'lucide-react';
 
 export default function NewsPage({ onOpenQuote, onNavigateHome }) {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeArticle, setActiveArticle] = useState(null);
+  const [newsItems, setNewsItems] = useState(latestNewsItems);
+
+  useEffect(() => {
+    let isMounted = true;
+    getNewsList().then(res => {
+      if (isMounted && res.data && res.data.length > 0) {
+        setNewsItems(res.data);
+      }
+    });
+    return () => { isMounted = false; };
+  }, []);
 
   const categories = [
     'All',
@@ -17,10 +29,10 @@ export default function NewsPage({ onOpenQuote, onNavigateHome }) {
     'Accreditation'
   ];
 
-  const filteredNews = latestNewsItems.filter((item) => {
+  const filteredNews = newsItems.filter((item) => {
     const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;
-    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          item.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = item.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          item.excerpt?.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 

@@ -1,9 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Calendar, ArrowRight } from 'lucide-react';
 import { latestNewsItems } from '../data/cloudAxisData';
+import { getNewsList } from '../lib/supabase';
 
 export default function LatestNews() {
   const [selectedArticle, setSelectedArticle] = useState(null);
+  const [news, setNews] = useState(latestNewsItems);
+
+  useEffect(() => {
+    let isMounted = true;
+    getNewsList().then(res => {
+      if (isMounted && res.data && res.data.length > 0) {
+        setNews(res.data);
+      }
+    });
+    return () => { isMounted = false; };
+  }, []);
 
   return (
     <section id="news" className="relative py-20 px-4 sm:px-6 lg:px-8 bg-gray-50/60 border-b border-gray-200">
@@ -24,7 +36,7 @@ export default function LatestNews() {
 
         {/* 4 Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {latestNewsItems.map((item) => (
+          {news.slice(0, 4).map((item) => (
             <div
               key={item.id}
               className="bg-white rounded-xl shadow-md hover:shadow-xl overflow-hidden border border-gray-100 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 group hover:border-red-500/30"

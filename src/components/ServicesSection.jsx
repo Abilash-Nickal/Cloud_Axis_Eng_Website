@@ -1,10 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { servicesOffer } from '../data/cloudAxisData';
+import { getServicesList } from '../lib/supabase';
 import { ArrowRight, ArrowUpRight, Check, X, Wrench, Cpu, ShieldCheck } from 'lucide-react';
 
 export default function ServicesSection({ onServiceSelect }) {
   const [activeModalService, setActiveModalService] = useState(null);
+  const [services, setServices] = useState(servicesOffer);
   const canvasRef = useRef(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    getServicesList().then(res => {
+      if (isMounted && res.data && res.data.length > 0) {
+        setServices(res.data);
+      }
+    });
+    return () => { isMounted = false; };
+  }, []);
 
   // Flame and ember particle simulation spanning the entire section
   useEffect(() => {
@@ -354,16 +366,16 @@ export default function ServicesSection({ onServiceSelect }) {
 
         {/* Services Grid with Titec-Style Hover Reveal Effect */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {servicesOffer.map((service) => (
+          {services.map((service) => (
             <div
               key={service.id}
               onClick={() => setActiveModalService(service)}
               className="group relative block rounded-2xl overflow-hidden shadow-xl transform hover:-translate-y-2 transition-all duration-500 bg-gray-950 border border-white/10 hover:border-[#E51A1A]/70 aspect-[4/3] cursor-pointer"
             >
               {/* Full Background Image with Smooth Scale Zoom on Hover */}
-              {service.image && (
+              {(service.image || service.image_url) && (
                 <img
-                  src={service.image}
+                  src={service.image || service.image_url}
                   alt={service.title}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                   loading="lazy"
